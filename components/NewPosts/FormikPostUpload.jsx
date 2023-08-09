@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import {Divider} from 'react-native-elements';
+import validUrl from 'valid-url';
 
 const uploadPostSchema = Yup.object().shape({
   imageUrl: Yup.string().url().required('URL is required'),
@@ -15,13 +16,16 @@ const uploadPostSchema = Yup.object().shape({
 const placeHolderImage =
   'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930';
 
-export default function FormikPostUpload() {
+export default function FormikPostUpload({navigation}) {
   const [thumbnailUrl, setThumbnailUrl] = useState(placeHolderImage);
 
   return (
     <Formik
       initialValues={{caption: '', imageUrl: ''}}
-      onSubmit={values => console.log(values)}
+      onSubmit={values => {
+        console.log(values) 
+        navigation.goBack()
+      }}
       validationSchema={uploadPostSchema}
       validateOnMount={true}>
       {({handleBlur, handleChange, handleSubmit, values, errors, isValid}) => (
@@ -34,7 +38,7 @@ export default function FormikPostUpload() {
             }}>
             <Image
               source={{
-                uri: thumbnailUrl ? thumbnailUrl : placeHolderImage,
+                uri: validUrl.isUri(thumbnailUrl) ? thumbnailUrl : placeHolderImage,
               }}
               style={{width: 100, height: 100}}
             />

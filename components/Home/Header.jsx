@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 
-export default function Header() {
+export default function Header({navigation}) {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
@@ -12,7 +12,7 @@ export default function Header() {
       </TouchableOpacity>
 
       <View style={styles.iconContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
           <Image
             source={require('../../assets/icons-heart-50.png')}
             style={styles.icon}

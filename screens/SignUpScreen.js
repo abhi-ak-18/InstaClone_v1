@@ -1,14 +1,14 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import LoginForm from '../components/LoginScreen/LoginForm'
+import SignUpForm from '../components/SignUpScreen/SignUpForm'
 
-export default function LoginScreen({navigation }) {
+export default function SignUpScreen({navigation}) {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
         <Image source={{uri: 'https://cdn1.vectorstock.com/i/1000x1000/06/40/splash-instagram-logo-black-and-white-colors-vector-35290640.jpg' , height:100  }}/>
       </View>
-      <LoginForm navigation={navigation}/>
+      <SignUpForm navigation={navigation}/>
     </View>
   )
 }
