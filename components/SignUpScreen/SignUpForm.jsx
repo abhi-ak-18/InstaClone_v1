@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   Pressable,
+  Alert,
 } from 'react-native';
 
 import React, {useState} from 'react';
@@ -12,8 +13,12 @@ import React, {useState} from 'react';
 import * as Yup from 'yup';
 import {Formik} from 'formik';
 import Validator from 'email-validator';
+//import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+//import { db } from '../../firebase';
+
 
 export default function SignUpForm({navigation}) {
+
   const SignUpFormSchema = Yup.object().shape({
     email: Yup.string().email().required('An email is required'),
     password: Yup.string()
@@ -24,12 +29,30 @@ export default function SignUpForm({navigation}) {
       .min(4, 'Username should have atleast 4 characters'),
   });
 
+  //const auth = getAuth();
+
+  const onSignUp = async(email,password, username) => {
+    try {
+        //const authUser = await createUserWithEmailAndPassword(auth,email, password)
+        console.log('Firebase user creation success !', email , password)
+        Alert.alert('User created successfully !')
+
+       /*  db.collection('users').add({
+            owner_uid: authUser.user.uid,
+            username: username,
+            email: authUser.user.email,
+        }) */
+    } catch (error) {
+        Alert.alert(error.message)
+    }
+  }
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{email: '', password: '', username:''}}
         onSubmit={values => {
-          console.log(values);
+          //console.log(values);
+          onSignUp(values.email,values.password, values.username)
         }}
         validationSchema={SignUpFormSchema}
         validateOnMount={true}>

@@ -7,8 +7,13 @@ import {
   Pressable,
   Alert
 } from 'react-native';
-//import firebase from '../../firebase';
+//import {db} from '../../firebase';
+
+//import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import React, {useState} from 'react';
+//import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+//import firebase from '../../firebase';
+
 
 import * as Yup from 'yup';
 import {Formik} from 'formik';
@@ -23,15 +28,37 @@ export default function LoginForm({navigation}) {
       .min(8, 'Password must be atleast 8 characters long'),
   });
 
-/*   const onLogin = async (email,password) => {
+  //const auth = getAuth();
+
+  const onLogin = async (email,password) => {
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password)
+      //await firebase.signInWithEmailAndPassword(auth,email, password)
       console.log('Firebase login success !', email , password)
     } catch (error) {
       Alert.alert(error.message)
     }
-  } */
+  }
 
+
+  /* signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  }); */
 
   return (
     <View style={styles.container}>
@@ -40,6 +67,7 @@ export default function LoginForm({navigation}) {
         onSubmit={values => {
           //onLogin(values.email, values.password)
           console.log(values)
+
         }}
         validationSchema={LoginFormSchema}
         validateOnMount={true}>

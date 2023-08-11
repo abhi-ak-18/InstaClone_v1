@@ -5,8 +5,10 @@ import Stories from '../components/Home/Stories'
 import Post from '../components/Home/Post'
 import { BottomTabIcons, POSTS } from '../Data/posts'
 import BottomTabs from '../components/Home/BottomTabs'
+import BottomRow from '../components/Home/BottomRow'
 
 export default function HomeScreen({navigation}) {
+  
   return (
     <SafeAreaView style={styles.container}>
       <Header navigation={navigation}/>
@@ -16,7 +18,8 @@ export default function HomeScreen({navigation}) {
           <Post post={post} key={index}/>
         ))}
       </ScrollView>
-      <BottomTabs icons={BottomTabIcons}/>
+      {/* <BottomTabs icons={BottomTabIcons} navigation={navigation}/> */}
+      <BottomRow navigation={navigation} icons={BottomTabIcons}/>
     </SafeAreaView>
   )
 }

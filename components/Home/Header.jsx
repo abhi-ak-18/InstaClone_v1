@@ -12,7 +12,7 @@ export default function Header({navigation}) {
       </TouchableOpacity>
 
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.push('NewPostScreen')}>
+        <TouchableOpacity /* onPress={() => navigation.push('NewPostScreen')} */>
           <Image
             source={require('../../assets/icons-heart-50.png')}
             style={styles.icon}
