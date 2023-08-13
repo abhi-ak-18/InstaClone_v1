@@ -36,6 +36,16 @@ export const POSTS = [
         comment:
           'dance difficulty halfway level tiny rapidly liquid dangerous thou ',
       },
+      {
+        user: 'Tejas',
+        comment:
+          'Beautiful bro ! ',
+      },
+      {
+        user: 'Pooja',
+        comment:
+          'Amazing , very lit !',
+      },
     ],
   },
   {

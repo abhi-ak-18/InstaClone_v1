@@ -4,8 +4,9 @@ import Header from '../components/Home/Header'
 import Stories from '../components/Home/Stories'
 import Post from '../components/Home/Post'
 import { BottomTabIcons, POSTS } from '../Data/posts'
-import BottomTabs from '../components/Home/BottomTabs'
+//import BottomTabs from '../components/Home/BottomTabs'
 import BottomRow from '../components/Home/BottomRow'
+
 
 export default function HomeScreen({navigation}) {
   
