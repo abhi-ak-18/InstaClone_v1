@@ -7,6 +7,7 @@ import {
   Modal,
   ToastAndroid,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import React, {useRef, useState} from 'react';
 import {Divider} from 'react-native-elements';
@@ -19,7 +20,7 @@ export default function Post({post}) {
       <Divider width={1} orientation="vertical" />
       <PostHeader post={post} />
       <PostImage post={post} />
-      <PostFooter post={post}/>
+      <PostFooter post={post} />
       <LikesCount post={post} />
       <Caption post={post} />
       <CommentSection post={post} />
@@ -137,16 +138,24 @@ const PostImage = ({post}) => (
   </View>
 );
 
-const PostFooter = ({ post }) => {
+const PostFooter = ({post}) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isCommentModalVisible, setIsCommentModalVisible] = useState(false);
+  const [newComment, setNewComment] = useState('');
 
   const toggleCommentModal = () => {
     setIsCommentModalVisible(!isCommentModalVisible);
   };
 
+  const handlePostComment = () => {
+    // Handle posting the new comment
+    console.log('Posted comment:', newComment);
+    setNewComment(''); // Clear the input after posting
+  };
+
+
   return (
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{flexDirection: 'row'}}>
       <View
         style={{
           flexDirection: 'row',
@@ -176,7 +185,7 @@ const PostFooter = ({ post }) => {
           />
         </TouchableOpacity>
       </View>
-      <View style={{ flex: 1, alignItems: 'flex-end' }}>
+      <View style={{flex: 1, alignItems: 'flex-end'}}>
         <TouchableOpacity>
           <Image
             style={styles.footerIcon}
@@ -194,13 +203,25 @@ const PostFooter = ({ post }) => {
             <Divider width={1} orientation="vertical" />
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
               {post.comments.map((comment, index) => (
-                <View key={index} style={{ flexDirection: 'row', marginTop: 3 }}>
-                  <Text style={{ color: 'white' }}>
-                    <Text style={{ fontWeight: '900' }}>{comment.user}</Text> {comment.comment}
+                <View key={index} style={{flexDirection: 'row', marginTop: 3}}>
+                  <Text style={{color: 'white'}}>
+                    <Text style={{fontWeight: '900'}}>{comment.user}</Text>{' '}
+                    {comment.comment}
                   </Text>
                 </View>
               ))}
             </ScrollView>
+            <View style={styles.newCommentContainer}>
+              <TextInput
+                style={styles.newCommentInput}
+                placeholder="Add a comment..."
+                value={newComment}
+                onChangeText={setNewComment}
+              />
+              <TouchableOpacity style={styles.postCommentButton} onPress={handlePostComment}>
+                <Text style={styles.postCommentButtonText}>Post</Text>
+              </TouchableOpacity>
+            </View>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={toggleCommentModal}>
@@ -239,10 +260,21 @@ const Caption = ({post}) => (
 
 const CommentSection = ({post}) => {
   const [isCommentModalVisible, setIsCommentModalVisible] = useState(false);
+  const [newComment, setNewComment] = useState('');
+
+  
+  // Calculate the height of the modal based on the number of comments
 
   const toggleCommentModal = () => {
     setIsCommentModalVisible(!isCommentModalVisible);
   };
+
+  const handlePostComment = () => {
+    // Handle posting the new comment
+    console.log('Posted comment:', newComment);
+    setNewComment(''); // Clear the input after posting
+  };
+
   return (
     <View style={{marginTop: 5}}>
       {!!post.comments.length && (
@@ -265,7 +297,7 @@ const CommentSection = ({post}) => {
             <Divider width={1} orientation="vertical" />
             <ScrollView contentContainerStyle={styles.scrollViewContent}>
               {post.comments.map((comment, index) => (
-                <View key={index} style={{flexDirection: 'row', marginTop: 3}}>
+                <View key={index} style={{flexDirection: 'row', marginTop: 10}}>
                   <Text style={{color: 'white'}}>
                     <Text style={{fontWeight: '900'}}>{comment.user}</Text>{' '}
                     {comment.comment}
@@ -273,6 +305,19 @@ const CommentSection = ({post}) => {
                 </View>
               ))}
             </ScrollView>
+            <View style={styles.newCommentContainer}>
+              <TextInput
+                style={styles.newCommentInput}
+                placeholder="Add a comment..."
+                value={newComment}
+                onChangeText={setNewComment}
+                // You can add onChangeText and value props to manage the new comment
+              />
+              <TouchableOpacity style={styles.postCommentButton} onPress={handlePostComment}>
+                <Text style={styles.postCommentButtonText}>Post</Text>
+              </TouchableOpacity>
+            </View>
+
             <TouchableOpacity
               style={styles.closeButton}
               onPress={toggleCommentModal}>
@@ -288,9 +333,10 @@ const CommentSection = ({post}) => {
 const Comments = ({post}) => (
   <>
     {post.comments.slice(0, 2).map((comment, index) => (
-      <View key={index} style={{ flexDirection: 'row', marginTop: 3 }}>
-        <Text style={{ color: 'white' }}>
-          <Text style={{ fontWeight: '900' }}>{comment.user}</Text> {comment.comment}
+      <View key={index} style={{flexDirection: 'row', marginTop: 3}}>
+        <Text style={{color: 'white'}}>
+          <Text style={{fontWeight: '900'}}>{comment.user}</Text>{' '}
+          {comment.comment}
         </Text>
       </View>
     ))}
@@ -447,7 +493,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: '40%', // Adjust the height to 40% of the screen
+    height: '60%', // Adjust the height to 40% of the screen
     backgroundColor: 'black', // Background color
     overflow: 'hidden', // Hide content outside the rounded borders
     borderTopLeftRadius: 10, // Rounded top-left border
@@ -463,6 +509,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10, // Rounded top-right border
     backgroundColor: 'black', // Background color
     top: 0,
+  
   },
   commentModalTitle: {
     color: 'white',
@@ -488,7 +535,30 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: 'flex-start', // Align items at the top of the ScrollView
-    marginBottom: 5,
-    marginTop: 5,
+    marginBottom: 15,
+    marginTop: 15,
+  },
+  newCommentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderTopWidth: 0.5,
+    borderColor: 'white',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 0, // Add some spacing from the comments
+    borderWidth: 1,
+    borderRadius: 10,
+  },
+  newCommentInput: {
+    flex: 1,
+    color: 'white',
+    fontSize: 14,
+  },
+  postCommentButton: {
+    marginLeft: 10,
+  },
+  postCommentButtonText: {
+    color: '#4285F4',
+    fontWeight: 'bold',
   },
 });
